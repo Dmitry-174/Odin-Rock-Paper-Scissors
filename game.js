@@ -12,8 +12,9 @@ function computerPlay() {
 }
 
 function playRound(playerSelection, computerSelection) {
+    let result = {}
     if (playerSelection === computerSelection) {
-        return {
+        result = {
             'winner': 'draw',
             'playerSelection': capitalize(playerSelection),
             'computerSelection': capitalize(computerSelection)
@@ -21,31 +22,49 @@ function playRound(playerSelection, computerSelection) {
     } else if (playerSelection === 'rock' && computerSelection === 'scissors'
         || playerSelection === 'paper' && computerSelection === 'rock'
         || playerSelection === 'scissors' && computerSelection === 'paper') {
-        return {
+        result = {
             'winner': "player",
             'playerSelection': capitalize(playerSelection),
             'computerSelection': capitalize(computerSelection)
         };
     } else {
-        return {
+        result = {
             'winner': "computer",
             'playerSelection': capitalize(playerSelection),
             'computerSelection': capitalize(computerSelection)
         };
     }
+    return result;
 }
 
 function showCurrentScores(playerScores, computerScores) {
     console.log(`Player: ${playerScores}, Computer: ${computerScores}`);
 }
 
+function writePlayerSelection() {
+    let flag = false;
+    let playerSelection;
+
+    do {
+        flag = false;
+        playerSelection = prompt('Please choose: Rock, Scissors or Paper')
+            .toLowerCase();
+        if (!scope.includes(playerSelection)) {
+            flag = true
+            alert('You chose wrong answer')
+        }
+    } while (flag);
+
+    return playerSelection;
+}
+
 function game() {
     let computerScores = 0;
     let playerScores = 0;
+
     for (let i = 0; i < 5; i++) {
         let computerSelection = computerPlay();
-        let playerSelection = prompt('Please choose: Rock, Scissors or Paper')
-            .toLowerCase();
+        let playerSelection = writePlayerSelection();
 
         const result = playRound(playerSelection, computerSelection);
 
