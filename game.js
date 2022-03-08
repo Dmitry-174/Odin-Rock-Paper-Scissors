@@ -15,23 +15,23 @@ function playRound(playerSelection, computerSelection) {
     let result = {}
     if (playerSelection === computerSelection) {
         result = {
-            'winner': 'draw',
-            'playerSelection': capitalize(playerSelection),
-            'computerSelection': capitalize(computerSelection)
+            winner: 'draw',
+            playerSelection: capitalize(playerSelection),
+            computerSelection: capitalize(computerSelection)
         };
     } else if (playerSelection === 'rock' && computerSelection === 'scissors'
         || playerSelection === 'paper' && computerSelection === 'rock'
         || playerSelection === 'scissors' && computerSelection === 'paper') {
         result = {
-            'winner': "player",
-            'playerSelection': capitalize(playerSelection),
-            'computerSelection': capitalize(computerSelection)
+            winner: "player",
+            playerSelection: capitalize(playerSelection),
+            computerSelection: capitalize(computerSelection)
         };
     } else {
         result = {
-            'winner': "computer",
-            'playerSelection': capitalize(playerSelection),
-            'computerSelection': capitalize(computerSelection)
+            winner: "computer",
+            playerSelection: capitalize(playerSelection),
+            computerSelection: capitalize(computerSelection)
         };
     }
     return result;
