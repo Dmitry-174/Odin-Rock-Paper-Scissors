@@ -38,61 +38,57 @@ function playRound(playerSelection, computerSelection) {
 }
 
 function showCurrentScores(playerScores, computerScores) {
-    console.log(`Player: ${playerScores}, Computer: ${computerScores}`);
+    scoresEl.textContent = `Player: ${playerScores}, \
+    Computer: ${computerScores}`;
 }
 
-function writePlayerSelection() {
-    let flag = false;
-    let playerSelection;
-
-    do {
-        flag = false;
-        playerSelection = prompt('Please choose: Rock, Scissors or Paper')
-            .toLowerCase();
-        if (!scope.includes(playerSelection)) {
-            flag = true
-            alert('You chose wrong answer')
-        }
-    } while (flag);
-
-    return playerSelection;
+function makeAllButtonsDisable() {
+    btns.forEach(btn => {
+        btn.setAttribute('disabled', 'disabled');
+    })
 }
 
-function game() {
-    let computerScores = 0;
-    let playerScores = 0;
+let computerScores = 0;
+let playerScores = 0;
+let stopGame = false;
 
-    for (let i = 0; i < 5; i++) {
-        let computerSelection = computerPlay();
-        let playerSelection = writePlayerSelection();
+const resultEl = document.querySelector('.result');
+const scoresEl = document.querySelector('.scores')
+const finalResultEl = document.querySelector('.final-result');
 
-        const result = playRound(playerSelection, computerSelection);
-
+const btns = document.querySelectorAll('button');
+btns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        if (stopGame) return;
+        const result = playRound(e.target.textContent.toLowerCase(), computerPlay());
         switch (result.winner) {
             case 'draw':
-                console.log(`Draw! Both of players chose ${result.computerSelection}`);
+                resultEl.textContent = `Draw! Computer also \
+                chose ${result.computerSelection}`;
                 showCurrentScores(playerScores, computerScores);
                 break;
             case "player":
-                console.log(`You Win! ${result.playerSelection} beats ${result.computerSelection}`);
+                resultEl.textContent = `You Win! ${result.playerSelection} \
+                beats ${result.computerSelection}`;
                 playerScores++;
                 showCurrentScores(playerScores, computerScores);
                 break;
             case 'computer':
-                console.log(`You Lose! ${result.computerSelection} beats ${result.playerSelection}`);
+                resultEl.textContent = `You Lose! ${result.computerSelection} \
+                beats ${result.playerSelection}`;
                 computerScores++;
                 showCurrentScores(playerScores, computerScores);
                 break;
         }
-    }
+        if (computerScores >= 5 || playerScores >= 5) {
+            stopGame = true;
+            makeAllButtonsDisable();
+            if (computerScores > playerScores) {
+                finalResultEl.textContent = `You LOSE!`
+            } else {
+                finalResultEl.textContent = `You WIN!`
+            }
 
-    if (playerScores > computerScores) {
-        console.log(`You Win! ${playerScores}:${computerScores}`);
-    } else if (playerScores < computerScores) {
-        console.log(`You Lose! ${playerScores}:${computerScores}`);
-    } else {
-        console.log(`Draw! ${playerScores}:${computerScores}`);
-    }
-}
-
-game();
+        }
+    })
+});
